@@ -1,0 +1,8 @@
+character\Character.class
+game\Game.class
+character\Mage.class
+game\Board.class
+app\Main.class
+character\Warrior.class
+player\Player.class
+character\Archer.class
