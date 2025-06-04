@@ -1,6 +1,7 @@
 package character;
 
 public abstract class Character {
+
     protected String name;
     protected int hp;
     protected int atk;
@@ -9,7 +10,7 @@ public abstract class Character {
     protected int row;
     protected int col;
 
-    public Character(String name, int atk, int def, int range) {
+    public Character(String name,int hp, int atk, int def, int range) {
         this.name = name;
         this.hp = 100;
         this.atk = atk;
@@ -21,14 +22,26 @@ public abstract class Character {
         this.row = row;
         this.col = col;
     }
-    
 
-    public int getRow() { return row; }
-    public int getRange() {return this.range;}
+    public int getRow() {
+        return row;
+    }
 
-    public int getCol() { return col; }
-    public String getName() { return name; }
-    public int getHp() { return hp; }
+    public int getCol() {
+        return col;
+    }
+
+    public int getRange() {
+        return this.range;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHp() {
+        return hp;
+    }
 
     public void takeDamage(int dmg) {
         hp = Math.max(0, hp - dmg);

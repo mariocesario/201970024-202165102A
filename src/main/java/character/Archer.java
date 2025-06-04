@@ -2,7 +2,7 @@ package character;
 
 public class Archer extends Character {
     public Archer(String name) {
-        super(name, 8, 5, 5);
+        super(name,100, 8, 5, 5);
     }
 
     @Override

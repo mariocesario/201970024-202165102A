@@ -2,7 +2,7 @@ package character;
 
 public class Warrior extends Character {
     public Warrior(String name) {
-        super(name, 15, 10, 1);
+        super(name,100, 15, 10, 1);
     }
 
     @Override

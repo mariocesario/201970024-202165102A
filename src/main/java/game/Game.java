@@ -73,14 +73,20 @@ public class Game {
     }
 
     private void moveCharacter(Character c) {
-        int newRow = -1; 
+        int newRow = -1;
         int newCol = -1;
         boolean validMove = false;
 
         while (!validMove) {
             if (isMultiplayer || c != player2) {
-                System.out.println("Enter the new row (1-10):");
-                newRow = Integer.parseInt(scanner.nextLine()) - 1;
+                try {
+                    System.out.println("Enter the new row (1-10):");
+                    newRow = Integer.parseInt(scanner.nextLine()) - 1;
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please enter a number for the row.");
+                    continue; // Volta para pedir uma entrada válida
+                }
+
                 System.out.println("Enter the new column (A-J):");
                 char colLetter = scanner.nextLine().toUpperCase().charAt(0);
                 newCol = colLetter - 'A';
@@ -92,7 +98,6 @@ public class Game {
                 } while (!board.isValidPosition(newRow, newCol) || board.isOccupied(newRow, newCol));
             }
 
-            // Validate movement based on range, board limits, and occupied positions
             if (!board.isValidPosition(newRow, newCol)) {
                 System.out.println("Invalid move! Position is out of bounds. Try again.");
             } else if (!isMoveWithinRange(c, newRow, newCol)) {
@@ -102,6 +107,7 @@ public class Game {
             } else {
                 validMove = true;
             }
+
         }
 
         board.moveCharacter(c, newRow, newCol);
