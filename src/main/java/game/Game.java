@@ -4,54 +4,116 @@ import character.Character;
 import character.Warrior;
 import character.Archer;
 import character.Mage;
-import player.Player;
-import game.Board;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Game {
 
+    private Board board;
+    private Scanner scanner;
+    private Character player1;
+    private Character player2;
+    private boolean isMultiplayer;
+
+    public Game() {
+        board = new Board();
+        scanner = new Scanner(System.in);
+    }
+
     public void start() {
-        Scanner teclado = new Scanner(System.in);
+        System.out.println("Multiplayer? (Yes or No):");
+        isMultiplayer = scanner.nextLine().equalsIgnoreCase("Yes");
 
-        boolean bot = true;
-        String player2Name = "CPU";
-
-        System.out.println("Is the game multiplayer? (Yes or No)");
-        String multiplayer = teclado.nextLine();
-        if (multiplayer.equalsIgnoreCase("Yes")) {
-            bot = false;
-
-            System.out.println("Enter Player 2's nickname:");
-            player2Name = teclado.nextLine();
-        }
-
-        System.out.println("Choose your character (Warrior, Mage or Archer):");
-        String characterChoice = teclado.nextLine();
-
+        System.out.println("Choose your character (Warrior, Mage, or Archer):");
+        String characterChoice = scanner.nextLine();
         System.out.println("Enter your nickname:");
-        String nickname = teclado.nextLine();
+        String nickname = scanner.nextLine();
 
-        Character character;
         if (characterChoice.equalsIgnoreCase("Archer")) {
-            character = new Archer(nickname);
+            player1 = new Archer(nickname);
         } else if (characterChoice.equalsIgnoreCase("Mage")) {
-            character = new Mage(nickname);
+            player1 = new Mage(nickname);
         } else {
-            character = new Warrior(nickname);
+            player1 = new Warrior(nickname);
         }
 
-        Player player1 = new Player(nickname, character, false);
-        Player player2 = new Player(player2Name, new Archer("Legolas"), bot);
+        if (isMultiplayer) {
+            System.out.println("Choose Player 2's character(Warrior, Mage, or Archer):");
+            String characterChoice2 = scanner.nextLine();
+            System.out.println("Enter Player 2's nickname:");
+            String nickname2 = scanner.nextLine();
 
-        System.out.println("Welcome, " + player1.getName() + "! You chose " + character.getClass().getSimpleName() + ".");
-        System.out.println("Welcome, " + player2.getName() + "! Your opponent is ready.");
-        System.out.println("Game started!");
+            if (characterChoice2.equalsIgnoreCase("Archer")) {
+                player2 = new Archer(nickname2);
+            } else if (characterChoice2.equalsIgnoreCase("Mage")) {
+                player2 = new Mage(nickname2);
+            } else {
+                player2 = new Warrior(nickname2);
+            }
+        } else {
+            player2 = new Archer("CPU");
+        }
 
-        Board board = new Board();
-        board.placeCharacter(player1.getCharacter(), 2, 2);
-        board.placeCharacter(player2.getCharacter(), 5, 5);
+        board.placeCharacter(player1, 2, 2);
+        board.placeCharacter(player2, 5, 5);
         board.printBoard();
 
-        teclado.close();
+        while (player1.isAlive() && player2.isAlive()) {
+            System.out.println(player1.getName() + ", it's your turn!");
+            moveCharacter(player1);
+            if (!player2.isAlive()) {
+                break;
+            }
+
+            System.out.println(player2.getName() + ", it's your turn!");
+            moveCharacter(player2);
+        }
+
+        System.out.println("Game over!");
+    }
+
+    private void moveCharacter(Character c) {
+        int newRow = -1; 
+        int newCol = -1;
+        boolean validMove = false;
+
+        while (!validMove) {
+            if (isMultiplayer || c != player2) {
+                System.out.println("Enter the new row (1-10):");
+                newRow = Integer.parseInt(scanner.nextLine()) - 1;
+                System.out.println("Enter the new column (A-J):");
+                char colLetter = scanner.nextLine().toUpperCase().charAt(0);
+                newCol = colLetter - 'A';
+            } else {
+                Random rand = new Random();
+                do {
+                    newRow = rand.nextInt(10);
+                    newCol = rand.nextInt(10);
+                } while (!board.isValidPosition(newRow, newCol) || board.isOccupied(newRow, newCol));
+            }
+
+            // Validate movement based on range, board limits, and occupied positions
+            if (!board.isValidPosition(newRow, newCol)) {
+                System.out.println("Invalid move! Position is out of bounds. Try again.");
+            } else if (!isMoveWithinRange(c, newRow, newCol)) {
+                System.out.println("Invalid move! Position is beyond character's range. Try again.");
+            } else if (board.isOccupied(newRow, newCol)) {
+                System.out.println("Invalid move! Position is already occupied. Try again.");
+            } else {
+                validMove = true;
+            }
+        }
+
+        board.moveCharacter(c, newRow, newCol);
+        board.printBoard();
+    }
+
+    public boolean isMoveWithinRange(Character c, int newRow, int newCol) {
+        int currentRow = c.getRow();
+        int currentCol = c.getCol();
+        int rowDiff = newRow - currentRow;
+        int colDiff = newCol - currentCol;
+
+        return (rowDiff * rowDiff + colDiff * colDiff) <= (c.getRange() * c.getRange());
     }
 }

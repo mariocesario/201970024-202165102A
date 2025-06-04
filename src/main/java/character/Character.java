@@ -21,8 +21,11 @@ public abstract class Character {
         this.row = row;
         this.col = col;
     }
+    
 
     public int getRow() { return row; }
+    public int getRange() {return this.range;}
+
     public int getCol() { return col; }
     public String getName() { return name; }
     public int getHp() { return hp; }

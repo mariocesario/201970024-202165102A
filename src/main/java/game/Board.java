@@ -46,8 +46,20 @@ public class Board {
         return Math.max(dRow, dCol);
     }
 
+    // Método para converter índice numérico em letra
+    public String columnToLetter(int col) {
+        return String.valueOf((char) ('A' + col));
+    }
+
     public void printBoard() {
+        System.out.print("  ");
+        for (int j = 0; j < columns; j++) {
+            System.out.print(columnToLetter(j) + " ");
+        }
+        System.out.println();
+
         for (int i = 0; i < rows; i++) {
+            System.out.print(i + 1 + " ");
             for (int j = 0; j < columns; j++) {
                 System.out.print((grid[i][j] == null ? "." : grid[i][j].getName().charAt(0)) + " ");
             }
