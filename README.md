@@ -23,6 +23,7 @@ Board: Classe para controlar o tabuleiro. <br/>
 #### Board:
 - [ ] Ajustar interface para mostrar ações a cada novo turno: "Mover - Cima(C), Baixo(B), Esquerda(E) ou Direita (D); Atacar - (A)".
 - [ ] Ajustar interface para mostrar vida de cada jogador.
+- [ ] Ajustar interface - Permitir digitar somenta a primeira letra de cada opção?
 - [ ] Refatorar e simplificar
 #### Character:
 - [ ] Implementar ataque;
