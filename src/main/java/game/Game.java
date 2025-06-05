@@ -105,6 +105,11 @@ public class Game {
     private void characterSpecial(Character c) {}
 
     private void characterMove(Character c) {
+        executeMove(c);
+        board.printBoard();
+    }
+
+    private void executeMove(Character c) {
         int newRow = -1;
         int newCol = -1;
         int[] position;
@@ -114,11 +119,11 @@ public class Game {
         newCol = position[1];
 
         boolean isValidMove = validateMove(c, newRow, newCol);
+
         if (!isValidMove) {
             characterMove(c);
         } else {
             board.moveCharacter(c, newRow, newCol);
-            board.printBoard();
         }
     }
 
