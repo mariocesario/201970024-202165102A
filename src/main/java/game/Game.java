@@ -107,28 +107,14 @@ public class Game {
     private void characterMove(Character c) {
         int newRow = -1;
         int newCol = -1;
+        int[] position;
+
         boolean validMove = false;
 
         while (!validMove) {
-            if (isMultiplayer || c != player2) {
-                try {
-                    System.out.println("Enter the new row (1-10):");
-                    newRow = Integer.parseInt(scanner.nextLine()) - 1;
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please enter a number for the row.");
-                    continue; // Volta para pedir uma entrada válida
-                }
-
-                System.out.println("Enter the new column (A-J):");
-                char colLetter = scanner.nextLine().toUpperCase().charAt(0);
-                newCol = colLetter - 'A';
-            } else {
-                Random rand = new Random();
-                do {
-                    newRow = rand.nextInt(10);
-                    newCol = rand.nextInt(10);
-                } while (!board.isValidPosition(newRow, newCol) || board.isOccupied(newRow, newCol));
-            }
+            position = getNewPosition(c);
+            newRow = position[0];
+            newCol = position[1];
 
             if (!board.isValidPosition(newRow, newCol)) {
                 System.out.println("Invalid move! Position is out of bounds. Try again.");
@@ -144,6 +130,42 @@ public class Game {
 
         board.moveCharacter(c, newRow, newCol);
         board.printBoard();
+    }
+
+    private int[] getNewPosition(Character c) {
+        if (isMultiplayer || c != player2) {
+            return getUserPosition();
+        } else {
+            return getRandomPosition();
+        }
+    }
+
+    private int[] getUserPosition() {
+        try {
+            System.out.println("Enter the new row (1-10):");
+            int newRow = Integer.parseInt(scanner.nextLine()) - 1;
+
+            System.out.println("Enter the new column (A-J):");
+            char colLetter = scanner.nextLine().toUpperCase().charAt(0);
+            int newCol = colLetter - 'A';
+
+            return new int[]{newRow, newCol};
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input! Please enter numbers and letters correctly.");
+            return getUserPosition();
+        }
+    }
+
+    private int[] getRandomPosition() {
+        Random rand = new Random();
+        int newRow = rand.nextInt(10);
+        int newCol = rand.nextInt(10);
+
+        if (!board.isValidPosition(newRow, newCol) || board.isOccupied(newRow, newCol)) {
+            return getRandomPosition();
+        }
+
+        return new int[]{newRow, newCol};
     }
 
     public boolean isMoveWithinRange(Character c, int newRow, int newCol) {
