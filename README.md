@@ -19,8 +19,10 @@ Board: Classe para controlar o tabuleiro. <br/>
 #### Game:
 - [ ] Ajustar movimentação, alterar de movimentação xadrez para formato: Cima(C), Baixo(B), Esquerda(E) ou Direita (D).
 - [ ] Iniciar jogadores em posições aleatórias.
+- [ ] Refatorar e separar em funções menores.
 #### Board:
 - [ ] Ajustar interface para mostrar ações a cada novo turno: "Mover - Cima(C), Baixo(B), Esquerda(E) ou Direita (D); Atacar - (A)".
 - [ ] Ajustar interface para mostrar vida de cada jogador.
+- [ ] Refatorar e simplificar
 #### Character:
 - [ ] Implementar ataque;
