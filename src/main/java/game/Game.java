@@ -57,19 +57,27 @@ public class Game {
         board.placeCharacter(player1, 2, 2);
         board.placeCharacter(player2, 5, 5);
         board.printBoard();
+        runGame();
+    }
 
-        while (player1.isAlive() && player2.isAlive()) {
-            System.out.println(player1.getName() + ", it's your turn!");
-            moveCharacter(player1);
-            if (!player2.isAlive()) {
-                break;
-            }
-
-            System.out.println(player2.getName() + ", it's your turn!");
-            moveCharacter(player2);
+    private void runGame() {
+        if (player1.isAlive() && player2.isAlive()) {
+            runTurn();
+            runGame();
         }
 
         System.out.println("Game over!");
+    }
+
+    private void runTurn() {
+        System.out.println(player1.getName() + ", it's your turn!");
+        moveCharacter(player1);
+        if (!player2.isAlive()) {
+            return;
+        }
+
+        System.out.println(player2.getName() + ", it's your turn!");
+        moveCharacter(player2);
     }
 
     private void moveCharacter(Character c) {
