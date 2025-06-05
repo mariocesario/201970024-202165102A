@@ -109,27 +109,31 @@ public class Game {
         int newCol = -1;
         int[] position;
 
-        boolean validMove = false;
+        position = getNewPosition(c);
+        newRow = position[0];
+        newCol = position[1];
 
-        while (!validMove) {
-            position = getNewPosition(c);
-            newRow = position[0];
-            newCol = position[1];
-
-            if (!board.isValidPosition(newRow, newCol)) {
-                System.out.println("Invalid move! Position is out of bounds. Try again.");
-            } else if (!isMoveWithinRange(c, newRow, newCol)) {
-                System.out.println("Invalid move! Position is beyond character's range. Try again.");
-            } else if (board.isOccupied(newRow, newCol)) {
-                System.out.println("Invalid move! Position is already occupied. Try again.");
-            } else {
-                validMove = true;
-            }
-
+        boolean isValidMove = validateMove(c, newRow, newCol);
+        if (!isValidMove) {
+            characterMove(c);
+        } else {
+            board.moveCharacter(c, newRow, newCol);
+            board.printBoard();
         }
+    }
 
-        board.moveCharacter(c, newRow, newCol);
-        board.printBoard();
+    private boolean validateMove(Character c, int newRow, int newCol) {
+        if (!board.isValidPosition(newRow, newCol)) {
+            System.out.println("Invalid move! Position is out of bounds. Try again.");
+            return false;
+        } else if (!isMoveWithinRange(c, newRow, newCol)) {
+            System.out.println("Invalid move! Position is beyond character's range. Try again.");
+            return false;
+        } else if (board.isOccupied(newRow, newCol)) {
+            System.out.println("Invalid move! Position is already occupied. Try again.");
+            return false;
+        }
+        return true;
     }
 
     private int[] getNewPosition(Character c) {
