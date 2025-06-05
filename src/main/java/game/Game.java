@@ -80,64 +80,66 @@ public class Game {
         characterAction(player2);
     }
 
-    private void characterAction(Character c) {
+    private void characterAction(Character currentCharacter) {
         System.out.println("Enter the action: (A - Attack. M - Move. D - Defender. S - Special");
         char letter = scanner.nextLine().toUpperCase().charAt(0);
 
         if (letter == 'A') {
-            characterAttack(c);
+            characterAttack(currentCharacter);
         } else if (letter == 'M') {
-            characterMove(c);
+            characterMove(currentCharacter);
         } else if (letter == 'D') {
-            characterDefender(c);
+            characterDefender(currentCharacter);
         } else if (letter == 'S') {
-            characterSpecial(c);
+            characterSpecial(currentCharacter);
         } else {
             System.out.println("Invalid action! Try again.");
-            characterAction(c);
+            characterAction(currentCharacter);
         }
     }
 
-    private void characterAttack(Character c) {
+    private void characterAttack(Character currentCharacter) {
         board.printBoard();
     }
 
-    private void characterDefender(Character c) {
+    private void characterDefender(Character currentCharacter) {
         board.printBoard();
     }
 
-    private void characterSpecial(Character c) {
+    private void characterSpecial(Character currentCharacter) {
+        Character opponent = getOpponent(currentCharacter);
+        currentCharacter.useSpecialPower(opponent);
         board.printBoard();
     }
 
-    private void characterMove(Character c) {
-        executeMove(c);
+    private void characterMove(Character currentCharacter) {
+        executeMove(currentCharacter);
         board.printBoard();
     }
 
-    private void executeMove(Character c) {
+    private void executeMove(Character currentCharacter) {
         int newRow = -1;
         int newCol = -1;
         int[] position;
 
-        position = getNewPosition(c);
+        position = getNewPosition(currentCharacter);
         newRow = position[0];
         newCol = position[1];
 
-        boolean isValidMove = validateMove(c, newRow, newCol);
+        boolean isValidMove = validateMove(currentCharacter, newRow, newCol);
 
         if (!isValidMove) {
-            characterMove(c);
+            characterMove(currentCharacter);
         } else {
-            board.moveCharacter(c, newRow, newCol);
+            board.moveCharacter(currentCharacter, newRow, newCol);
         }
     }
 
-    private boolean validateMove(Character c, int newRow, int newCol) {
+    private boolean validateMove(Character currentCharacter, int newRow, int newCol) {
         if (!board.isValidPosition(newRow, newCol)) {
             System.out.println("Invalid move! Position is out of bounds. Try again.");
             return false;
-        } else if (!isMoveWithinRange(c, newRow, newCol)) {
+        } else if (!isMoveWithinRange(currentCharacter, newRow, newCol)) {
             System.out.println("Invalid move! Position is beyond character's range. Try again.");
             return false;
         } else if (board.isOccupied(newRow, newCol)) {
@@ -147,8 +149,8 @@ public class Game {
         return true;
     }
 
-    private int[] getNewPosition(Character c) {
-        if (isMultiplayer || c != player2) {
+    private int[] getNewPosition(Character currentCharacter) {
+        if (isMultiplayer || currentCharacter != player2) {
             return getUserPosition();
         } else {
             return getRandomPosition();
@@ -183,12 +185,16 @@ public class Game {
         return new int[]{newRow, newCol};
     }
 
-    public boolean isMoveWithinRange(Character c, int newRow, int newCol) {
-        int currentRow = c.getRow();
-        int currentCol = c.getCol();
+    public boolean isMoveWithinRange(Character currentCharacter, int newRow, int newCol) {
+        int currentRow = currentCharacter.getRow();
+        int currentCol = currentCharacter.getCol();
         int rowDiff = newRow - currentRow;
         int colDiff = newCol - currentCol;
 
-        return (rowDiff * rowDiff + colDiff * colDiff) <= (c.getRange() * c.getRange());
+        return (rowDiff * rowDiff + colDiff * colDiff) <= (currentCharacter.getRange() * currentCharacter.getRange());
+    }
+
+    private Character getOpponent(Character currentCharacter) {
+        return currentCharacter == player1 ? player2 : player1;
     }
 }
