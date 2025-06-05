@@ -71,16 +71,40 @@ public class Game {
 
     private void runTurn() {
         System.out.println(player1.getName() + ", it's your turn!");
-        moveCharacter(player1);
+        characterAction(player1);
         if (!player2.isAlive()) {
             return;
         }
 
         System.out.println(player2.getName() + ", it's your turn!");
-        moveCharacter(player2);
+        characterAction(player2);
     }
 
-    private void moveCharacter(Character c) {
+    private void characterAction(Character c) {
+        System.out.println("Enter the action: (A - Attack. M - Move. D - Defender. S - Special");
+        char letter = scanner.nextLine().toUpperCase().charAt(0);
+
+        if (letter == 'A') {
+            characterAttack(c);
+        } else if (letter == 'M') {
+            characterMove(c);
+        } else if (letter == 'D') {
+            characterDefender(c);
+        } else if (letter == 'S') {
+            characterSpecial(c);
+        } else {
+            System.out.println("Invalid action! Try again.");
+            characterAction(c);
+        }
+    }
+
+    private void characterAttack(Character c) {}
+
+    private void characterDefender(Character c) {}
+
+    private void characterSpecial(Character c) {}
+
+    private void characterMove(Character c) {
         int newRow = -1;
         int newCol = -1;
         boolean validMove = false;
