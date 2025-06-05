@@ -98,11 +98,17 @@ public class Game {
         }
     }
 
-    private void characterAttack(Character c) {}
+    private void characterAttack(Character c) {
+        board.printBoard();
+    }
 
-    private void characterDefender(Character c) {}
+    private void characterDefender(Character c) {
+        board.printBoard();
+    }
 
-    private void characterSpecial(Character c) {}
+    private void characterSpecial(Character c) {
+        board.printBoard();
+    }
 
     private void characterMove(Character c) {
         executeMove(c);
