@@ -9,12 +9,14 @@ public abstract class Character {
     protected int range;
     protected int row;
     protected int col;
+    protected int initialDef;
 
     public Character(String name,int hp, int atk, int def, int range) {
         this.name = name;
         this.hp = 100;
         this.atk = atk;
         this.def = def;
+        this.initialDef = def;
         this.range = range;
     }
 
@@ -49,6 +51,10 @@ public abstract class Character {
         int resultedDamage = Math.max(0, attackDamage - def);
         def = Math.max(0, def - attackDamage);
         hp = Math.max(0, hp - resultedDamage);
+    }
+
+    public void defender() {
+        def = initialDef;
     }
 
     public boolean isAlive() {

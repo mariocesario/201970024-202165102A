@@ -107,7 +107,7 @@ public class Game {
     }
 
     private void characterDefender(Character currentCharacter) {
-        return;
+        currentCharacter.defender();
     }
 
     private void characterSpecial(Character currentCharacter) {
