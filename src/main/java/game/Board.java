@@ -51,7 +51,12 @@ public class Board {
         return String.valueOf((char) ('A' + col));
     }
 
-    public void printBoard() {
+    public void printBoard(Character c1, Character c2) {
+        System.out.println();
+
+        System.out.println(c1.getName() + " HP: " + c1.getHp());
+        System.out.println(c2.getName() + " HP: " + c2.getHp());
+
         System.out.print("  ");
         for (int j = 0; j < columns; j++) {
             System.out.print(columnToLetter(j) + " ");

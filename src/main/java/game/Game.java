@@ -56,7 +56,7 @@ public class Game {
 
         board.placeCharacter(player1, 2, 2);
         board.placeCharacter(player2, 5, 5);
-        board.printBoard();
+        board.printBoard(player1, player2);
         runGame();
     }
 
@@ -78,7 +78,7 @@ public class Game {
 
         System.out.println(player2.getName() + ", it's your turn!");
         characterAction(player2);
-        board.printBoard();
+        board.printBoard(player1, player2);
     }
 
     private void characterAction(Character currentCharacter) {
