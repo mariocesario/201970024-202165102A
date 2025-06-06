@@ -51,7 +51,18 @@ public class Game {
                 player2 = new Warrior(nickname2);
             }
         } else {
-            player2 = new Archer("CPU");
+           String[] characterOptions = {"Warrior", "Mage", "Archer"};
+    Random rand = new Random();
+    String randomChoice = characterOptions[rand.nextInt(characterOptions.length)];
+
+    if (randomChoice.equalsIgnoreCase("Archer")) {
+        player2 = new Archer("CPU");
+    } else if (randomChoice.equalsIgnoreCase("Mage")) {
+        player2 = new Mage("CPU");
+    } else {
+        player2 = new Warrior("CPU");
+    }
+
         }
 
         board.placeCharacter(player1, 2, 2);

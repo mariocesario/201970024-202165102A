@@ -53,9 +53,10 @@ public class Board {
 
     public void printBoard(Character c1, Character c2) {
         System.out.println();
-
-        System.out.println(c1.getName() + " HP: " + c1.getHp());
-        System.out.println(c2.getName() + " HP: " + c2.getHp());
+        
+        
+        System.out.println("Nickname: "+c1.getName()+"\n" + " HP: " + c1.getHp()+" character: "+ c1.getClass().getSimpleName());
+        System.out.println("Nickname: "+c2.getName()+"\n" + " HP: " + c2.getHp()+" character: "+c2.getClass().getSimpleName());
 
         System.out.print("  ");
         for (int j = 0; j < columns; j++) {
