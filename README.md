@@ -28,6 +28,6 @@ Board: Classe para controlar o tabuleiro. <br/>
 - [ ] Refatorar e simplificar
 #### Character:
 - [x] Implementar movimentação;
-- [ ] Implementar ataque;
+- [x] Implementar ataque;
 - [x] Implementar especial;
-- [ ] Implementar defesa;
+- [x] Implementar defesa;
