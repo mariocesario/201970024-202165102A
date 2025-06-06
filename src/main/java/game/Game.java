@@ -70,18 +70,28 @@ public class Game {
     }
 
     private void runTurn() {
+        boolean validAction;
+
         System.out.println(player1.getName() + ", it's your turn!");
-        characterAction(player1);
+        do {
+            validAction = characterAction(player1);
+        } while (!validAction);
+
+        board.printBoard(player1, player2);
+
         if (!player2.isAlive()) {
             return;
         }
 
         System.out.println(player2.getName() + ", it's your turn!");
-        characterAction(player2);
+        do {
+            validAction = characterAction(player2);
+        } while (!validAction);
+
         board.printBoard(player1, player2);
     }
 
-    private void characterAction(Character currentCharacter) {
+    private boolean characterAction(Character currentCharacter) {
         System.out.println("Enter the action: (A - Attack. M - Move. D - Defender. S - Special");
         char letter = scanner.nextLine().toUpperCase().charAt(0);
 
@@ -95,14 +105,18 @@ public class Game {
             characterSpecial(currentCharacter);
         } else {
             System.out.println("Invalid action! Try again.");
-            characterAction(currentCharacter);
+            return false;
         }
+
+        return true;
     }
 
     private void characterAttack(Character currentCharacter) {
         Character opponent = getOpponent(currentCharacter);
         boolean isRangeForAttack = currentCharacter.checkAttackRange(opponent);
-        if (!isRangeForAttack) return; // perdeu a vez otário
+        if (!isRangeForAttack) {
+            return;
+        }
         opponent.takeDamage(currentCharacter.getAtk());
     }
 
@@ -120,13 +134,9 @@ public class Game {
     }
 
     private void executeMove(Character currentCharacter) {
-        int newRow = -1;
-        int newCol = -1;
-        int[] position;
-
-        position = getNewPosition(currentCharacter);
-        newRow = position[0];
-        newCol = position[1];
+        int[] position = getNewPosition(currentCharacter);
+        int newRow = position[0];
+        int newCol = position[1];
 
         boolean isValidMove = validateMove(currentCharacter, newRow, newCol);
 
