@@ -78,6 +78,7 @@ public class Game {
 
         System.out.println(player2.getName() + ", it's your turn!");
         characterAction(player2);
+        board.printBoard();
     }
 
     private void characterAction(Character currentCharacter) {
@@ -99,22 +100,23 @@ public class Game {
     }
 
     private void characterAttack(Character currentCharacter) {
-        board.printBoard();
+        Character opponent = getOpponent(currentCharacter);
+        boolean isRangeForAttack = currentCharacter.checkAttackRange(opponent);
+        if (!isRangeForAttack) return; // perdeu a vez otário
+        opponent.takeDamage(currentCharacter.getAtk());
     }
 
     private void characterDefender(Character currentCharacter) {
-        board.printBoard();
+        return;
     }
 
     private void characterSpecial(Character currentCharacter) {
         Character opponent = getOpponent(currentCharacter);
         currentCharacter.useSpecialPower(opponent);
-        board.printBoard();
     }
 
     private void characterMove(Character currentCharacter) {
         executeMove(currentCharacter);
-        board.printBoard();
     }
 
     private void executeMove(Character currentCharacter) {
