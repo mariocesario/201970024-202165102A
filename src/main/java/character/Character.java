@@ -43,8 +43,12 @@ public abstract class Character {
         return hp;
     }
 
-    public void takeDamage(int dmg) {
-        hp = Math.max(0, hp - dmg);
+    public  int getAtk() { return atk; }
+
+    public void takeDamage(int attackDamage) {
+        int resultedDamage = Math.max(0, attackDamage - def);
+        def = Math.max(0, def - attackDamage);
+        hp = Math.max(0, hp - resultedDamage);
     }
 
     public boolean isAlive() {
@@ -52,4 +56,14 @@ public abstract class Character {
     }
 
     public abstract void useSpecialPower(Character opponent);
+
+    public boolean checkAttackRange(Character opponent) {
+        return squaredDistance(this, opponent) <= range * range;
+    }
+
+    private int squaredDistance(Character a, Character b) {
+        int dr = a.getRow() - b.getRow();
+        int dc = a.getCol() - b.getCol();
+        return dr * dr + dc * dc;
+    }
 }
