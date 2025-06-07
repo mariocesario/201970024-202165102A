@@ -51,17 +51,17 @@ public class Game {
                 player2 = new Warrior(nickname2);
             }
         } else {
-           String[] characterOptions = {"Warrior", "Mage", "Archer"};
-    Random rand = new Random();
-    String randomChoice = characterOptions[rand.nextInt(characterOptions.length)];
+            String[] characterOptions = {"Warrior", "Mage", "Archer"};
+            Random rand = new Random();
+            String randomChoice = characterOptions[rand.nextInt(characterOptions.length)];
 
-    if (randomChoice.equalsIgnoreCase("Archer")) {
-        player2 = new Archer("CPU");
-    } else if (randomChoice.equalsIgnoreCase("Mage")) {
-        player2 = new Mage("CPU");
-    } else {
-        player2 = new Warrior("CPU");
-    }
+            if (randomChoice.equalsIgnoreCase("Archer")) {
+                player2 = new Archer("CPU");
+            } else if (randomChoice.equalsIgnoreCase("Mage")) {
+                player2 = new Mage("CPU");
+            } else {
+                player2 = new Warrior("CPU");
+            }
 
         }
 
@@ -141,21 +141,53 @@ public class Game {
     }
 
     private void characterMove(Character currentCharacter) {
-        executeMove(currentCharacter);
+        executeDirectionalMove(currentCharacter);
+        board.printBoard(player1, player2); // Print após cada movimento
     }
 
-    private void executeMove(Character currentCharacter) {
-        int[] position = getNewPosition(currentCharacter);
-        int newRow = position[0];
-        int newCol = position[1];
+    private void executeDirectionalMove(Character currentCharacter) {
+        int maxRange = currentCharacter.getRange();
+        int startRow = currentCharacter.getRow();
+        int startCol = currentCharacter.getCol();
+        int currentRow = startRow;
+        int currentCol = startCol;
+        int movesLeft = maxRange;
 
-        boolean isValidMove = validateMove(currentCharacter, newRow, newCol);
+        while (movesLeft > 0) {
+            System.out.println("Enter direction: C (Up), B (Down), E (Left), D (Right)");
+            char direction = scanner.nextLine().toUpperCase().charAt(0);
 
-        if (!isValidMove) {
-            characterMove(currentCharacter);
-        } else {
+            int newRow = currentRow;
+            int newCol = currentCol;
+
+            if (direction == 'C') {
+                newRow -= 1;
+            } else if (direction == 'B') {
+                newRow += 1;
+            } else if (direction == 'E') {
+                newCol -= 1;
+            } else if (direction == 'D') {
+                newCol += 1;
+            } else {
+                System.out.println("Invalid direction! Try again.");
+                continue;
+            }
+
+            if (!validateMove(currentCharacter, newRow, newCol)) {
+                System.out.println("Invalid move! Try another direction.");
+                continue;
+            }
+            
             board.moveCharacter(currentCharacter, newRow, newCol);
+            currentRow = newRow;
+            currentCol = newCol; 
+            movesLeft--; 
+
+            board.printBoard(player1, player2);
+
         }
+
+        System.out.println(currentCharacter.getName() + " reached max movement range. Turn ended.");
     }
 
     private boolean validateMove(Character currentCharacter, int newRow, int newCol) {
