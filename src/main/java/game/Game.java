@@ -64,9 +64,15 @@ public class Game {
             }
 
         }
-
-        board.placeCharacter(player1, 2, 2);
-        board.placeCharacter(player2, 5, 5);
+        
+         Random rand = new Random();
+        int newRow = rand.nextInt(10);
+        int newCol = rand.nextInt(10);
+        
+        board.placeCharacter(player1, newRow, newCol);
+         newRow = rand.nextInt(10);
+         newCol = rand.nextInt(10);
+        board.placeCharacter(player2, newRow, newCol);
         board.printBoard(player1, player2);
         runGame();
     }
