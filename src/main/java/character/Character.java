@@ -72,4 +72,8 @@ public abstract class Character {
         int dc = a.getCol() - b.getCol();
         return dr * dr + dc * dc;
     }
+
+    public void printData() {
+        System.out.println("Nickname: " + this.name + "\tHP: " + this.hp + "\tDef: " + this.def + "\tAtk: " + this.atk + "\tRange: " + this.range + "\tcharacter: "+ this.getClass().getSimpleName());
+    }
 }
