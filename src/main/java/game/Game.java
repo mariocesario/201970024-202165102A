@@ -64,7 +64,6 @@ public class Game {
                     characterChoice2 = scanner.nextLine(); // Pede uma nova entrada
                 }
             }
-            
         } else {
             String[] characterOptions = {"Warrior", "Mage", "Archer"};
             Random rand = new Random();
@@ -77,17 +76,19 @@ public class Game {
             } else {
                 player2 = new Warrior("CPU");
             }
-
+            player2.setIsBot(true);
         }
 
-        Random rand = new Random();
-        int newRow = rand.nextInt(10);
-        int newCol = rand.nextInt(10);
-
+        int[] position = getRandomPosition();
+        int newRow = position[0];
+        int newCol = position[1];
         board.placeCharacter(player1, newRow, newCol);
-        newRow = rand.nextInt(10);
-        newCol = rand.nextInt(10);
+
+        position = getRandomPosition();
+        newRow = position[0];
+        newCol = position[1];
         board.placeCharacter(player2, newRow, newCol);
+
         board.printBoard(player1, player2);
         runGame();
     }
@@ -117,10 +118,32 @@ public class Game {
 
         System.out.println(player2.getName() + ", it's your turn!");
         do {
-            validAction = characterAction(player2);
+            validAction = isMultiplayer ? characterAction(player2) : characterBotAction(player2);
         } while (!validAction);
 
         board.printBoard(player1, player2);
+    }
+
+    private boolean characterBotAction(Character currentCharacter) {
+        Random rand = new Random();
+        int randInt = rand.nextInt(4);
+        // 0 para Attack, 1 para Move, 2 para Defender, 3 para Special
+
+        if (randInt == 0) {
+            characterAttack(currentCharacter);
+            System.out.println("Player 2 (bot): Attack");
+        } else if (randInt == 1) {
+            characterMove(currentCharacter);
+            System.out.println("Player 2 (bot): Move");
+        } else if (randInt == 2) {
+            characterDefender(currentCharacter);
+            System.out.println("Player 2 (bot): Defender");
+        } else {
+            characterSpecial(currentCharacter);
+            System.out.println("Player 2 (bot): Special");
+        }
+
+        return true;
     }
 
     private boolean characterAction(Character currentCharacter) {
@@ -162,15 +185,50 @@ public class Game {
     }
 
     private void characterMove(Character currentCharacter) {
-        executeDirectionalMove(currentCharacter);
+        if (currentCharacter.getIsBot()) {
+            executeBotMove(currentCharacter);
+        } else {
+            executeDirectionalMove(currentCharacter);
+        }
     }
 
-    private void executeDirectionalMove(Character currentCharacter) {
-        int maxRange = currentCharacter.getRange();
+    private void executeBotMove(Character currentCharacter) {
         int startRow = currentCharacter.getRow();
         int startCol = currentCharacter.getCol();
-        int currentRow = startRow;
-        int currentCol = startCol;
+        int newRow = startRow;
+        int newCol = startCol;
+
+        Random rand = new Random();
+        int randInt = rand.nextInt(4);
+        char[] characterOptions = {'C', 'B', 'E', 'D'};
+        String[] characterOptionsS = {"Up", "Down", "Left", "Right"};
+        char direction = characterOptions[randInt];
+
+        if (direction == 'C') {
+            newRow -= 1;
+        } else if (direction == 'B') {
+            newRow += 1;
+        } else if (direction == 'E') {
+            newCol -= 1;
+        } else {
+            newCol += 1;
+        }
+
+        if (!validateMove(currentCharacter, newRow, newCol)) {
+            return;
+        }
+
+        System.out.println("Bot moved " + characterOptionsS[randInt]);
+
+        board.moveCharacter(currentCharacter, newRow, newCol);
+    }
+
+
+    private void executeDirectionalMove(Character currentCharacter) {
+        int startRow = currentCharacter.getRow();
+        int startCol = currentCharacter.getCol();
+        int newRow = startRow;
+        int newCol = startCol;
 
         System.out.println("Enter direction: C (Up), B (Down), E (Left), D (Right)");
         char direction = scanner.nextLine().toUpperCase().charAt(0);
@@ -180,31 +238,22 @@ public class Game {
             direction = scanner.nextLine().toUpperCase().charAt(0);
         }
 
-        int newRow = currentRow;
-        int newCol = currentCol;
-
         if (direction == 'C') {
             newRow -= 1;
         } else if (direction == 'B') {
             newRow += 1;
         } else if (direction == 'E') {
             newCol -= 1;
-        } else if (direction == 'D') {
-            newCol += 1;
         } else {
-            System.out.println("Invalid direction! Try again.");
-            return;
+            newCol += 1;
         }
 
         if (!validateMove(currentCharacter, newRow, newCol)) {
+            executeDirectionalMove(currentCharacter);
             return;
         }
 
         board.moveCharacter(currentCharacter, newRow, newCol);
-        currentRow = newRow;
-        currentCol = newCol;
-
-        System.out.println(currentCharacter.getName() + " reached max movement range. Turn ended.");
     }
 
     private boolean validateMove(Character currentCharacter, int newRow, int newCol) {
@@ -219,30 +268,6 @@ public class Game {
             return false;
         }
         return true;
-    }
-
-    private int[] getNewPosition(Character currentCharacter) {
-        if (isMultiplayer || currentCharacter != player2) {
-            return getUserPosition();
-        } else {
-            return getRandomPosition();
-        }
-    }
-
-    private int[] getUserPosition() {
-        try {
-            System.out.println("Enter the new row (1-10):");
-            int newRow = Integer.parseInt(scanner.nextLine()) - 1;
-
-            System.out.println("Enter the new column (A-J):");
-            char colLetter = scanner.nextLine().toUpperCase().charAt(0);
-            int newCol = colLetter - 'A';
-
-            return new int[]{newRow, newCol};
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input! Please enter numbers and letters correctly.");
-            return getUserPosition();
-        }
     }
 
     private int[] getRandomPosition() {
