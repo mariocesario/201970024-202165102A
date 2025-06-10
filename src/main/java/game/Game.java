@@ -28,13 +28,20 @@ public class Game {
         String characterChoice = scanner.nextLine();
         System.out.println("Enter your nickname:");
         String nickname = scanner.nextLine();
-
-        if (characterChoice.equalsIgnoreCase("Archer")) {
-            player1 = new Archer(nickname);
-        } else if (characterChoice.equalsIgnoreCase("Mage")) {
-            player1 = new Mage(nickname);
-        } else {
-            player1 = new Warrior(nickname);
+        while (true) {
+            if (characterChoice.equalsIgnoreCase("Archer")) {
+                player1 = new Archer(nickname);
+                break;
+            } else if (characterChoice.equalsIgnoreCase("Mage")) {
+                player1 = new Mage(nickname);
+                break;
+            } else if (characterChoice.equalsIgnoreCase("Warrior")) {
+                player1 = new Warrior(nickname);
+                break;
+            } else {
+                System.out.println("Invalid choice! Please enter (Warrior, Mage, or Archer)");
+                characterChoice = scanner.nextLine(); // Pede uma nova entrada
+            }
         }
 
         if (isMultiplayer) {
@@ -42,14 +49,22 @@ public class Game {
             String characterChoice2 = scanner.nextLine();
             System.out.println("Enter Player 2's nickname:");
             String nickname2 = scanner.nextLine();
-
-            if (characterChoice2.equalsIgnoreCase("Archer")) {
-                player2 = new Archer(nickname2);
-            } else if (characterChoice2.equalsIgnoreCase("Mage")) {
-                player2 = new Mage(nickname2);
-            } else {
-                player2 = new Warrior(nickname2);
+            while (true) {
+                if (characterChoice2.equalsIgnoreCase("Archer")) {
+                    player2 = new Archer(nickname2);
+                    break;
+                } else if (characterChoice2.equalsIgnoreCase("Mage")) {
+                    player2 = new Mage(nickname2);
+                    break;
+                } else if (characterChoice2.equalsIgnoreCase("Warrior")) {
+                    player2 = new Warrior(nickname2);
+                    break;
+                } else {
+                    System.out.println("Invalid choice! Please enter (Warrior, Mage, or Archer)");
+                    characterChoice2 = scanner.nextLine(); // Pede uma nova entrada
+                }
             }
+            
         } else {
             String[] characterOptions = {"Warrior", "Mage", "Archer"};
             Random rand = new Random();
@@ -64,14 +79,14 @@ public class Game {
             }
 
         }
-        
-         Random rand = new Random();
+
+        Random rand = new Random();
         int newRow = rand.nextInt(10);
         int newCol = rand.nextInt(10);
-        
+
         board.placeCharacter(player1, newRow, newCol);
-         newRow = rand.nextInt(10);
-         newCol = rand.nextInt(10);
+        newRow = rand.nextInt(10);
+        newCol = rand.nextInt(10);
         board.placeCharacter(player2, newRow, newCol);
         board.printBoard(player1, player2);
         runGame();
@@ -148,7 +163,6 @@ public class Game {
 
     private void characterMove(Character currentCharacter) {
         executeDirectionalMove(currentCharacter);
-        board.printBoard(player1, player2); // Print após cada movimento
     }
 
     private void executeDirectionalMove(Character currentCharacter) {
@@ -157,41 +171,38 @@ public class Game {
         int startCol = currentCharacter.getCol();
         int currentRow = startRow;
         int currentCol = startCol;
-        int movesLeft = maxRange;
 
-        while (movesLeft > 0) {
-            System.out.println("Enter direction: C (Up), B (Down), E (Left), D (Right)");
-            char direction = scanner.nextLine().toUpperCase().charAt(0);
+        System.out.println("Enter direction: C (Up), B (Down), E (Left), D (Right)");
+        char direction = scanner.nextLine().toUpperCase().charAt(0);
 
-            int newRow = currentRow;
-            int newCol = currentCol;
-
-            if (direction == 'C') {
-                newRow -= 1;
-            } else if (direction == 'B') {
-                newRow += 1;
-            } else if (direction == 'E') {
-                newCol -= 1;
-            } else if (direction == 'D') {
-                newCol += 1;
-            } else {
-                System.out.println("Invalid direction! Try again.");
-                continue;
-            }
-
-            if (!validateMove(currentCharacter, newRow, newCol)) {
-                System.out.println("Invalid move! Try another direction.");
-                continue;
-            }
-            
-            board.moveCharacter(currentCharacter, newRow, newCol);
-            currentRow = newRow;
-            currentCol = newCol; 
-            movesLeft--; 
-
-            board.printBoard(player1, player2);
-
+        while (direction != 'C' && direction != 'B' && direction != 'E' && direction != 'D') {
+            System.out.println("Invalid direction! Try again.");
+            direction = scanner.nextLine().toUpperCase().charAt(0);
         }
+
+        int newRow = currentRow;
+        int newCol = currentCol;
+
+        if (direction == 'C') {
+            newRow -= 1;
+        } else if (direction == 'B') {
+            newRow += 1;
+        } else if (direction == 'E') {
+            newCol -= 1;
+        } else if (direction == 'D') {
+            newCol += 1;
+        } else {
+            System.out.println("Invalid direction! Try again.");
+            return;
+        }
+
+        if (!validateMove(currentCharacter, newRow, newCol)) {
+            return;
+        }
+
+        board.moveCharacter(currentCharacter, newRow, newCol);
+        currentRow = newRow;
+        currentCol = newCol;
 
         System.out.println(currentCharacter.getName() + " reached max movement range. Turn ended.");
     }
