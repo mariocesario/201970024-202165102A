@@ -10,6 +10,7 @@ public abstract class Character {
     protected int row;
     protected int col;
     protected int initialDef;
+    protected boolean isBot;
 
     public Character(String name,int hp, int atk, int def, int range) {
         this.name = name;
@@ -18,11 +19,20 @@ public abstract class Character {
         this.def = def;
         this.initialDef = def;
         this.range = range;
+        this.isBot = false;
     }
 
     public void setPosition(int row, int col) {
         this.row = row;
         this.col = col;
+    }
+
+    public boolean getIsBot() {
+        return isBot;
+    }
+
+    public void setIsBot(boolean isBot) {
+        this.isBot = isBot;
     }
 
     public int getRow() {
@@ -41,16 +51,12 @@ public abstract class Character {
         return name;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
     public  int getAtk() { return atk; }
 
     public void takeDamage(int attackDamage) {
-        int resultedDamage = Math.max(0, attackDamage - def);
-        def = Math.max(0, def - attackDamage);
-        hp = Math.max(0, hp - resultedDamage);
+        int resultedDamage = Math.max(0, attackDamage - this.def);
+        this.def = Math.max(0, this.def - attackDamage);
+        this.hp = Math.max(0, this.hp - resultedDamage);
     }
 
     public void defender() {
