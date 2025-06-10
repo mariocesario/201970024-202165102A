@@ -99,7 +99,12 @@ public class Game {
             runGame();
         }
 
+        gameOver();
+    }
+
+    private void gameOver() {
         System.out.println("Game over!");
+        System.out.println("Player " + (player1.isAlive() ? player2.getName() : player1.getName()) + " win!");
     }
 
     private void runTurn() {
