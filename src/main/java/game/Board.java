@@ -19,10 +19,6 @@ public class Board {
         return grid[row][col] != null;
     }
 
-    public Character getCharacter(int row, int col) {
-        return grid[row][col];
-    }
-
     public void placeCharacter(Character c, int row, int col) {
         if (!isValidPosition(row, col) || isOccupied(row, col)) {
             throw new IllegalArgumentException("Invalid or occupied position");
@@ -40,11 +36,6 @@ public class Board {
         grid[newRow][newCol] = c;
     }
 
-    public int calculateDistance(Character c1, Character c2) {
-        int dRow = Math.abs(c1.getRow() - c2.getRow());
-        int dCol = Math.abs(c1.getCol() - c2.getCol());
-        return Math.max(dRow, dCol);
-    }
 
     // Método para converter índice numérico em letra
     public String columnToLetter(int col) {
