@@ -94,9 +94,8 @@ public class Game {
     }
 
     private void runGame() {
-        if (player1.isAlive() && player2.isAlive()) {
-            runTurn();
-            runGame();
+        while(player1.isAlive() && player2.isAlive()) {
+            runTurn();  
         }
 
         gameOver();
@@ -104,7 +103,7 @@ public class Game {
 
     private void gameOver() {
         System.out.println("Game over!");
-        System.out.println("Player " + (player1.isAlive() ? player2.getName() : player1.getName()) + " win!");
+        System.out.println("Player " + (player1.isAlive() ? player1.getName() : player2.getName()) + " win!");
     }
 
     private void runTurn() {
