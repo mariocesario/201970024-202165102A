@@ -11,6 +11,7 @@ public abstract class Character {
     protected int col;
     protected int initialDef;
     protected boolean isBot;
+    protected boolean usedSpecial = false;
 
     public Character(String name,int hp, int atk, int def, int range) {
         this.name = name;

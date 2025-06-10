@@ -7,6 +7,9 @@ public class Archer extends Character {
 
     @Override
     public void useSpecialPower(Character opponent) {
-        this.range++;
+        if (!this.usedSpecial) {
+            this.range++;
+            this.usedSpecial = true;
+        }
     }
 }

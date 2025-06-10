@@ -7,8 +7,11 @@ public class Mage extends Character {
 
     @Override
     public void useSpecialPower(Character opponent) {
-        int temp = this.hp;
-        this.hp = opponent.hp;
-        opponent.hp = temp;
+        if (!this.usedSpecial) {
+            int temp = this.hp;
+            this.hp = opponent.hp;
+            opponent.hp = temp;
+            this.usedSpecial = true;
+        }
     }
 }

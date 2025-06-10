@@ -21,7 +21,7 @@ Board: Classe para controlar o tabuleiro. <br/>
 - [x] Iniciar jogadores em posições aleatórias.
 - [x] Refatorar e separar em funções menores.
 - [x] Adicionar escolhas aleatórias para caso jogador 2 seja computador.
-- [ ] Mostrar na tela para qual direção o Bot se moveu.
+- [x] Mostrar na tela para qual direção o Bot se moveu.
 - [ ] Ao terminar jogo, mostrar mensagem do ganhador e perguntar se deseja iniciar outro jogo.
 #### Board:
 - [x] Ajustar interface para mostrar ações a cada novo turno: "Mover - Cima(C), Baixo(B), Esquerda(E) ou Direita (D); Atacar - (A)".
@@ -33,4 +33,4 @@ Board: Classe para controlar o tabuleiro. <br/>
 - [x] Implementar ataque;
 - [x] Implementar especial;
 - [x] Implementar defesa;
-- [ ] Implementar limite de 1 uso do special;
+- [x] Implementar limite de 1 uso do special;
