@@ -7,6 +7,6 @@ public class Warrior extends Character {
 
     @Override
     public void useSpecialPower(Character opponent) {
-        this.range = 30;
+        this.atk = 30;
     }
 }
