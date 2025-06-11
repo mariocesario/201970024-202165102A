@@ -15,7 +15,7 @@ public abstract class Character {
 
     public Character(String name,int hp, int atk, int def, int range) {
         this.name = name;
-        this.hp = 100;
+        this.hp = hp;
         this.atk = atk;
         this.def = def;
         this.initialDef = def;
