@@ -48,14 +48,14 @@ public class Board {
         c1.printData();
         c2.printData();
 
-        System.out.print("  ");
+        System.out.print("\t ");
         for (int j = 0; j < columns; j++) {
             System.out.print(columnToLetter(j) + " ");
         }
         System.out.println();
 
         for (int i = 0; i < rows; i++) {
-            System.out.print(i + 1 + " ");
+            System.out.print(i + 1 + "\t ");
             for (int j = 0; j < columns; j++) {
                 System.out.print((grid[i][j] == null ? "." : grid[i][j].getName().charAt(0)) + " ");
             }
