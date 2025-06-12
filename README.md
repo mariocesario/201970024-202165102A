@@ -5,6 +5,10 @@
 Mario Henrique de Oliveira Cesario - 202165102A <br/>
 Jonas Henrique Nascimento - 201970024 <br/>
 
+
+### Vídeo de apresentação no Youtube: [Trabalho duelo de personagens RPG](https://youtu.be/TI6iJ_1Yza0)
+
+
 ### Organização do projeto:
 Classes: <br/>
 Player: Classe responsável por representar o jogador humano ou bot e seus dados. <br/>
