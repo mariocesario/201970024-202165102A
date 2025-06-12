@@ -22,12 +22,12 @@ Board: Classe para controlar o tabuleiro. <br/>
 - [x] Refatorar e separar em funções menores.
 - [x] Adicionar escolhas aleatórias para caso jogador 2 seja computador.
 - [x] Mostrar na tela para qual direção o Bot se moveu.
-- [ ] Ao terminar jogo, mostrar mensagem do ganhador e perguntar se deseja iniciar outro jogo.
+- [x] Ao terminar jogo, mostrar mensagem do ganhador e perguntar se deseja iniciar outro jogo.
 #### Board:
 - [x] Ajustar interface para mostrar ações a cada novo turno: "Mover - Cima(C), Baixo(B), Esquerda(E) ou Direita (D); Atacar - (A)".
 - [x] Ajustar interface para mostrar vida de cada jogador.
 - [x] Ajustar interface - Permitir digitar somente a primeira letra de cada opção?
-- [ ] Refatorar e simplificar
+- [x] Refatorar e simplificar
 #### Character:
 - [x] Implementar movimentação;
 - [x] Implementar ataque;

@@ -16,6 +16,5 @@ public class Main {
             String response = teclado.nextLine();
             playAgain = response.equalsIgnoreCase("Yes");
         }
-
     }
 }

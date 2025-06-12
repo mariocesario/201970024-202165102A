@@ -8,7 +8,6 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Game {
-
     private Board board;
     private Scanner scanner;
     private Character player1;
@@ -226,7 +225,6 @@ public class Game {
 
         board.moveCharacter(currentCharacter, newRow, newCol);
     }
-
 
     private void executeDirectionalMove(Character currentCharacter) {
         int startRow = currentCharacter.getRow();
